@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CanDeeBee</title>
+    <link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+    <header>
+        <div class="logo">CanDeeBee</div>
+        <img src="/static/images/cdblogo.png" height="100px" alt="Logo Goes Here"><!-- Logo TBD -->
+    </header>
+    <main>
+        <div class="welcome-message" id="welcome">
+            Welcome {{ username }}!
+        </div>
+        <section id="candy-selector"> <!-- container for dropdown list of Candy names -->
+            <h1>CanDeeBee</h1>
+            <div id="candy-list-dropdown"></div>
+        </section>
+        <section id="candy-info"> <!-- Container where all info for selected candy will be displayed -->
+            <div id="candy-details"></div> <!-- container for text box with candy details and component list -->
+            <div id="candy-image"></div> <!-- container for the image of the selected candy -->
+            <div id="comment-section"></div> <!-- container for comment entry box and comment display, if enabled -->
+        </section>
+    </main>
+    <script src="https://unpkg.com/launchdarkly-js-client-sdk@3"></script>] <!-- LaunchDarkly client-side SDK -->
+    <script>
+        const ldClientId = "{{ ld_client_id }}"; // templated assignment for LaunchDarkly client ID from ENV variable
+    </script>
+    <script src="static/script.js"></script>
+</body>
+</html>

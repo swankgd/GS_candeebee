@@ -1,0 +1,7 @@
+launchdarkly_access_token = "<enter your access token>"
+project-key = "can-dee-bee"
+project-name = "CanDeeBee"
+flag-key = "candy-comments"
+flag-name = "CandyComments"
+flag-description = "Flag to control comment feature"
+environment-key = "production"

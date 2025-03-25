@@ -1,0 +1,83 @@
+variable "launchdarkly_access_token" {
+  type      = string
+}
+variable "project-key" {
+  type      = string
+}
+variable "project-name" {
+  type      = string
+}
+variable "flag-key" {
+  type      = string
+}
+variable "flag-name" {
+  type      = string
+}
+variable "flag-description" {
+  type      = string
+}
+variable "environment-key" {
+  type      = string
+}
+
+terraform {
+  required_providers {
+    launchdarkly = {
+      source = "launchdarkly/launchdarkly"
+      version = "~> 2.0"
+    }
+  }
+}
+
+provider "launchdarkly" {
+  access_token = var.launchdarkly_access_token
+}
+
+resource "launchdarkly_project" "project" {
+  key  = var.project-key
+  name = var.project-name
+  environments {
+    key = "production"
+    name = "Production"
+    color = "EEEEEE"
+  }
+}
+
+resource "launchdarkly_feature_flag" "flag" {
+  project_key = launchdarkly_project.project.key
+  name = var.flag-name
+  key = var.flag-key
+  description = var.flag-description
+  tags = ["managed-by-terraform"]
+  variation_type = "boolean"
+  variations {
+      value = true
+  }
+  variations {
+      value = false
+  }
+  client_side_availability {
+    using_environment_id = true
+    using_mobile_key = false
+  }
+}
+
+resource "launchdarkly_feature_flag_environment" "environment" {
+  flag_id = "${var.project-key}/${var.flag-key}"
+  env_key = var.environment-key
+
+  targets {
+    values = ["Greg"]
+    variation = 0
+  }
+  fallthrough {
+    variation = 1
+  }
+  off_variation = 1
+}
+
+output "client_side_id" {
+  value = launchdarkly_project.project.environments[0].client_side_id
+  sensitive = true
+}
+
